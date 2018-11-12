@@ -1577,7 +1577,53 @@ client.on('guildMemberAdd', member => {
            
           });
 
+client.on('message', message => {
+        if (message.content === prefix + "inv") {
+            if(!message.channel.guild) return;
+        let embed = new Discord.RichEmbed()
+        .setTitle(`:small_orange_diamond: Click Here To Invite Fantastic. `)
+        .setURL(`https://discordapp.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=8`)
+     message.channel.sendEmbed(embed);
+       }
+   });
+       client.on('message', message => {
+      if(message.content.startsWith(prefix + 'ma')) {
+       if (!message.member.hasPermission("MOVE_MEMBERS")) return message.channel.send('**لايوجد لديك صلاحية سحب الأعضاء**');
+         if(!message.guild.member(client.user).hasPermission("MOVE_MEMBERS")) return message.reply("**لايوجد لدي صلاحية السحب**");
+      if (message.member.voiceChannel == null) return message.channel.send(`**الرجاء الدخول لروم صوتي**`)
+       var author = message.member.voiceChannelID;
+       var m = message.guild.members.filter(m=>m.voiceChannel)
+       message.guild.members.filter(m=>m.voiceChannel).forEach(m => {
+       m.setVoiceChannel(author)
+       })
+       message.channel.send(`✅ **| تم سحب جميع الأعضاء إليك**`)
+      
+      
+       }
+         });
+		 client.on('message', message => {
+  var prefix ="S"; 
+if (message.content.startsWith(prefix + 'perms')) {
+         if(!message.channel.guild) return;
+         var perms = JSON.stringify(message.channel.permissionsFor(message.author).serialize(), null, 4);
+         var zPeRms = new Discord.RichEmbed()
+         .setColor('RANDOM')
+         .setTitle(':tools: Permissions')
+         .addField('Your Permissions:',perms)
+                  message.channel.send({embed:zPeRms});
 
+    }
+    });
+	client.on('guildMemberAdd', member => {
+  member.guild.fetchInvites().then(guildInvites => {
+    const ei = invites[member.guild.id];
+    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
+    const inviter = client.users.get(invite.inviter.id);
+    const stewart = member.guild.channels.find("name", "chat");
+     stewart.send(`<@${member.user.id}> تمت الدعوه من <@${inviter.id}>`);
+   //  stewart.send(`<@${member.user.id}> joined using invite code ${invite.code} from <@${inviter.id}>. Invite was used ${invite.uses} times since its creation.`);
+  }); 
+});
 
 
 
