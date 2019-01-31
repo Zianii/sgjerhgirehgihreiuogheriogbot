@@ -34,7 +34,7 @@ client.on('ready', () => {
 
 
 
-const aprefix ="-";
+const aprefix = "-";
 const dev = ['283580465862934539','444918581659172864'];
 client.on('message', message => {
     var arg = message.content.split(` `).slice(1).join(' ');
